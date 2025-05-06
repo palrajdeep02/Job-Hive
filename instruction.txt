@@ -1,0 +1,138 @@
+Online Job Portal – Detailed Project Overview
+
+Project Description
+
+An Online Job Portal is a web-based platform where job seekers can search and apply for jobs, while employers can post job vacancies and manage applications. The system streamlines the hiring process by providing an efficient interface for both recruiters and candidates.
+
+Key Features & Functionalities
+
+1. User Management
+•	Job Seeker Registration & Login (Username, Email, Password, Resume Upload)
+•	Employer Registration & Login (Company Name, Industry, Email, Password)
+•	Admin Panel for managing users and job postings
+
+2. Job Listings & Search
+•	Job Posting by Employers (Title, Description, Salary, Location, Experience, Industry)
+•	Advanced Search with Filters (Job Title, Company, Location, Experience, Salary, Job Type)
+•	Category-Wise Job Listings (IT, Healthcare, Finance, Marketing, etc.)
+
+3. Job Applications
+•	Apply for Jobs Online (Resume submission & Cover Letter)
+•	Application Tracking System (Status: Pending, Reviewed, Shortlisted, Rejected, Hired)
+•	Saved Jobs & Application History for job seekers
+
+4. Resume & Profile Management
+•	Resume Upload & Management (PDF, DOC format)
+•	Profile Creation with Skills, Experience, Education, Certifications
+•	Profile Visibility Settings (Public, Private)
+
+
+
+
+
+5. Employer Dashboard
+•	Post & Manage Jobs
+•	Shortlist & Contact Candidates
+•	View Applicants for Posted Jobs
+•	Job Analytics & Performance Reports
+
+6. Admin Panel
+•	Manage Users (Employers & Job Seekers)
+•	Approve/Reject Job Listings
+•	Monitor Job Applications
+•	Generate Reports on Site Activity
+
+7. Notifications & Alerts
+•	Email Notifications for Job Updates, Application Status
+•	Job Alerts via Email & SMS
+•	Employer Notifications for New Applicants
+
+8. Additional Features
+•	AI-Based Job Recommendations (Based on user profile & job searches)
+•	Video Resume & Interview Scheduling
+•	Integration with LinkedIn & Other Job Portals
+•	Company Reviews & Ratings
+•	Blog Section for Career Advice
+•	Subscription Plans for Premium Job Listings
+
+Technology Stack
+Frontend: HTML, CSS, JavaScript, Bootstrap, JSP
+Backend: Java Servlet, JSP
+Database: Oracle Database, mysql Database
+Server: Apache Tomcat
+Tools: Eclipse/NetBeans, SQL Developer
+
+
+
+
+Database Design
+1. Users Table
+
+CREATE TABLE users (
+    user_id NUMBER PRIMARY KEY,
+    name VARCHAR2(100),
+    email VARCHAR2(150) UNIQUE,
+    password VARCHAR2(255),
+    role VARCHAR2(20) CHECK (role IN ('job_seeker', 'employer', 'admin'))
+);
+
+2. Job Listings Table
+
+CREATE TABLE jobs (
+    job_id NUMBER PRIMARY KEY,
+    employer_id NUMBER,
+    title VARCHAR2(255),
+    description CLOB,
+    category VARCHAR2(100),
+    salary NUMBER,
+    location VARCHAR2(150),
+    experience NUMBER,
+    job_type VARCHAR2(50),
+    posted_date DATE DEFAULT SYSDATE,
+    FOREIGN KEY (employer_id) REFERENCES users(user_id)
+);
+
+3. Job Applications Table
+
+CREATE TABLE applications (
+    application_id NUMBER PRIMARY KEY,
+    job_id NUMBER,
+    job_seeker_id NUMBER,
+    resume VARCHAR2(255),
+    cover_letter CLOB,
+    status VARCHAR2(50) CHECK (status IN ('Pending', 'Reviewed', 'Shortlisted', 'Rejected', 'Hired')),
+    applied_date DATE DEFAULT SYSDATE,
+    FOREIGN KEY (job_id) REFERENCES jobs(job_id),
+    FOREIGN KEY (job_seeker_id) REFERENCES users(user_id)
+);
+Note : You can add any other table if you need
+Software Documentation Needed
+1. Software Requirements Specification (SRS)
+•	Functional & Non-Functional Requirements
+•	User Roles & System Behavior
+•	Use Case Diagrams
+2. Database Design Document
+•	ER Diagram
+•	Schema & Table Relationships
+•	SQL Queries
+3. Software Design Document (SDD)
+•	System Architecture (MVC Model)
+•	Sequence & Flow Diagrams
+
+4. User Manual
+•	Steps to Register & Apply for Jobs
+•	Employer Guide for Posting Jobs
+•	Admin Panel Usage
+5. Test Plan & Reports
+•	Test Cases & Expected Outputs
+•	Performance Testing
+•	Bug Tracking
+6. Deployment Document
+•	How to Deploy WAR File on Tomcat
+•	Database Connection Configuration
+Marks divisions:
+For compliance of project within deadline   20 marks
+Performance of the participance                    10 marks
+Presentation                                                       10 marks      
+Documentation                                                    5 marks
+Innovative ideas                                                   5 marks

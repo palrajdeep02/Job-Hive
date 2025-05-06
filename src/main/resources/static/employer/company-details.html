@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Company Profile - Job Portal</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .setup-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 0 2rem;
+        }
+        
+        .setup-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .setup-title {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .setup-subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .setup-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .setup-progress::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e9ecef;
+            z-index: 1;
+        }
+        
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .step-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .progress-step.active .step-number {
+            background-color: #3498db;
+            border-color: #3498db;
+            color: #fff;
+        }
+        
+        .progress-step.active .step-label {
+            color: #3498db;
+            font-weight: 500;
+        }
+        
+        .progress-step.completed .step-number {
+            background-color: #2ecc71;
+            border-color: #2ecc71;
+            color: #fff;
+        }
+        
+        .setup-form {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: #fff;
+            transition: border-color 0.3s;
+        }
+        
+        .form-select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            min-height: 120px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        .form-textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .logo-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .logo-upload:hover {
+            border-color: #3498db;
+        }
+        
+        .logo-upload-icon {
+            font-size: 3rem;
+            color: #7f8c8d;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-upload-text {
+            color: #7f8c8d;
+            text-align: center;
+        }
+        
+        .logo-upload-text strong {
+            color: #3498db;
+        }
+        
+        .logo-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 10px;
+            margin: 0 auto 1rem;
+            display: none;
+            object-fit: cover;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-secondary {
+            background-color: #f8f9fa;
+            color: #2c3e50;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e9ecef;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .form-note {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .required-field::after {
+            content: '*';
+            color: #e74c3c;
+            margin-left: 0.3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .setup-progress {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.5rem;
+            }
+            
+            .setup-progress::before {
+                display: none;
+            }
+            
+            .progress-step {
+                flex-direction: row;
+                gap: 1rem;
+            }
+            
+            .step-number {
+                margin-bottom: 0;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Job Portal</div>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../../login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="setup-container">
+            <div class="setup-header">
+                <h1 class="setup-title">Complete Your Company Profile</h1>
+                <p class="setup-subtitle">Tell us about your company to get started with job posting</p>
+            </div>
+            
+            <div class="setup-progress">
+                <div class="progress-step completed">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Account</div>
+                </div>
+                <div class="progress-step active">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Company Details</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Verification</div>
+                </div>
+            </div>
+            
+            <form class="setup-form">
+                <div class="form-section">
+                    <h2 class="section-title">Basic Information</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label required-field" for="company-name">Company Name</label>
+                        <input type="text" id="company-name" class="form-input" placeholder="Enter your company name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required-field" for="industry">Industry</label>
+                        <select id="industry" class="form-select" required>
+                            <option value="">Select industry</option>
+                            <option value="technology">Technology</option>
+                            <option value="finance">Finance</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="education">Education</option>
+                            <option value="retail">Retail</option>
+                            <option value="manufacturing">Manufacturing</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required-field" for="company-size">Company Size</label>
+                        <select id="company-size" class="form-select" required>
+                            <option value="">Select company size</option>
+                            <option value="1-10">1-10 employees</option>
+                            <option value="11-50">11-50 employees</option>
+                            <option value="51-200">51-200 employees</option>
+                            <option value="201-500">201-500 employees</option>
+                            <option value="501-1000">501-1000 employees</option>
+                            <option value="1001-5000">1001-5000 employees</option>
+                            <option value="5000+">5000+ employees</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required-field" for="founded-year">Founded Year</label>
+                        <input type="number" id="founded-year" class="form-input" placeholder="Enter founded year" min="1900" max="2024" required>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2 class="section-title">Company Logo</h2>
+                    
+                    <div class="logo-upload" id="logo-upload">
+                        <img src="../../assets/images/company-logo.png" alt="Company Logo" class="logo-preview" id="logo-preview">
+                        <div class="logo-upload-icon">📤</div>
+                        <div class="logo-upload-text">
+                            <strong>Click to upload</strong> or drag and drop<br>
+                            PNG, JPG or GIF (max. 2MB)
+                        </div>
+                        <input type="file" id="logo-input" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2 class="section-title">Contact Information</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label required-field" for="website">Website</label>
+                        <input type="url" id="website" class="form-input" placeholder="https://www.example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required-field" for="email">Email</label>
+                        <input type="email" id="email" class="form-input" placeholder="careers@example.com" required>
+                        <div class="form-note">This email will be used for job applications</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required-field" for="phone">Phone</label>
+                        <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 123-4567" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label required-field" for="address">Address</label>
+                        <textarea id="address" class="form-textarea" placeholder="Enter your company address" required></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2 class="section-title">About Your Company</h2>
+                    
+                    <div class="form-group">
+                        <label class="form-label required-field" for="description">Company Description</label>
+                        <textarea id="description" class="form-textarea" placeholder="Tell job seekers about your company, mission, and values" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="benefits">Benefits & Culture</label>
+                        <textarea id="benefits" class="form-textarea" placeholder="Describe the benefits you offer and your company culture"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary">Save as Draft</button>
+                    <button type="submit" class="btn btn-primary">Continue to Verification</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Logo upload functionality
+        document.getElementById('logo-upload').addEventListener('click', function() {
+            document.getElementById('logo-input').click();
+        });
+        
+        document.getElementById('logo-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('logo-preview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    document.querySelector('.logo-upload-icon').style.display = 'none';
+                    document.querySelector('.logo-upload-text').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html> 

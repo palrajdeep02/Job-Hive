@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Job Portal</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e2e2e2, #c9d6ff);
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px) saturate(160%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%);
+            padding: 15px 0;
+            box-shadow: 
+                0 4px 30px rgba(0, 0, 0, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4267B2;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px) scale(1.05);
+            text-shadow: 0 0 15px rgba(66, 103, 178, 0.5);
+        }
+
+        .logo i {
+            font-size: 32px;
+            color: #FFA000;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .logo:hover i {
+            transform: rotate(360deg);
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #4267B2, #365899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #4267B2, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-links a i {
+            font-size: 20px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .nav-links a:hover {
+            color: #4267B2;
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a:hover i {
+            transform: rotate(15deg) scale(1.2);
+            color: #FFA000;
+        }
+
+        .nav-links .active {
+            color: #4267B2;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-links .active i {
+            color: #FFA000;
+        }
+
+        .nav-links .btn {
+            background: rgba(66, 103, 178, 0.1);
+            color: #4267B2;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid rgba(66, 103, 178, 0.2);
+        }
+
+        .nav-links .btn:hover {
+            background: rgba(66, 103, 178, 0.2);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 15px rgba(66, 103, 178, 0.2);
+        }
+
+        .nav-links .btn:hover i {
+            transform: rotate(-180deg);
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                border-radius: 0 0 15px 15px;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-links .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        main {
+            padding-top: 120px;
+            position: relative;
+            z-index: 1;
+            min-height: calc(100vh - 80px);
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+        
+        .profile-sidebar {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            height: fit-content;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .profile-sidebar:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: block;
+            object-fit: cover;
+            border: 3px solid rgba(66, 103, 178, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .profile-picture:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 160, 0, 0.7);
+            box-shadow: 0 0 20px rgba(255, 160, 0, 0.3);
+        }
+        
+        .profile-name {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .profile-title {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-item .number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4267B2;
+        }
+        
+        .stat-item .label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .edit-profile-btn {
+            background: linear-gradient(135deg, rgba(66, 103, 178, 0.9), rgba(54, 88, 153, 0.9));
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .edit-profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(66, 103, 178, 0.3);
+            background: linear-gradient(135deg, rgba(66, 103, 178, 1), rgba(54, 88, 153, 1));
+        }
+        
+        .upload-resume-btn {
+            background: linear-gradient(135deg, rgba(255, 160, 0, 0.9), rgba(255, 140, 0, 0.9));
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .upload-resume-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 160, 0, 0.3);
+            background: linear-gradient(135deg, rgba(255, 160, 0, 1), rgba(255, 140, 0, 1));
+        }
+        
+        .profile-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .profile-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(66, 103, 178, 0.5);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .info-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .info-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .info-value {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .skills-section {
+            margin-bottom: 2rem;
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .skill-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(66, 103, 178, 0.1);
+            border-radius: 20px;
+            color: #4267B2;
+            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(66, 103, 178, 0.2);
+        }
+
+        .skill-tag:hover {
+            background: rgba(66, 103, 178, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(66, 103, 178, 0.1);
+        }
+        
+        .experience-section {
+            margin-bottom: 2rem;
+        }
+        
+        .experience-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .experience-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .experience-title {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .experience-company {
+            color: #4267B2;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .experience-duration {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .experience-description {
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+        
+        .education-section {
+            margin-bottom: 2rem;
+        }
+        
+        .education-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .education-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .education-title {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .education-institution {
+            color: #4267B2;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .education-duration {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            main {
+                padding-top: 100px;
+            }
+            
+            .profile-container {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-sidebar,
+            .profile-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <i class='bx bxs-hexagon'></i>
+                <span>Job Hive</span>
+            </a>
+            <button class="menu-btn" id="menuBtn">
+                <i class='bx bx-menu'></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="jobs.html">
+                    <i class='bx bx-search'></i>
+                    Find Jobs
+                </a>
+                <a href="dashboard.html">
+                    <i class='bx bx-home'></i>
+                    Dashboard
+                </a>
+                <a href="applications.html">
+                    <i class='bx bx-file'></i>
+                    Applications
+                </a>
+                <a href="messages.html">
+                    <i class='bx bx-message-dots'></i>
+                    Messages
+                </a>
+                <a href="profile.html" class="active">
+                    <i class='bx bx-user'></i>
+                    Profile
+                </a>
+                <a href="#" onclick="logout(); return false;" class="btn">
+                    <i class='bx bx-log-out'></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="profile-container">
+            <div class="profile-sidebar">
+                <img src="../../assets/images/profile-placeholder.jpg" alt="Profile Picture" class="profile-picture">
+                <h2 class="profile-name">John Doe</h2>
+                <p class="profile-title">Senior Software Engineer</p>
+                
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="number">12</div>
+                        <div class="label">Applications</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="number">5</div>
+                        <div class="label">Saved Jobs</div>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <button class="action-btn edit-profile-btn">Edit Profile</button>
+                    <button class="action-btn upload-resume-btn">Upload Resume</button>
+                </div>
+            </div>
+            
+            <div class="profile-content">
+                <h2 class="section-title">Personal Information</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Full Name</div>
+                        <div class="info-value">John Doe</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Email</div>
+                        <div class="info-value">john.doe@example.com</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Phone</div>
+                        <div class="info-value">+1 (555) 123-4567</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Location</div>
+                        <div class="info-value">San Francisco, CA</div>
+                    </div>
+                </div>
+                
+                <div class="skills-section">
+                    <h2 class="section-title">Skills</h2>
+                    <div class="skills-list">
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Spring Boot</span>
+                        <span class="skill-tag">Microservices</span>
+                        <span class="skill-tag">RESTful APIs</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">AWS</span>
+                    </div>
+                </div>
+                
+                <div class="experience-section">
+                    <h2 class="section-title">Work Experience</h2>
+                    <div class="experience-item">
+                        <h3 class="experience-title">Senior Software Engineer</h3>
+                        <div class="experience-company">Tech Solutions Inc.</div>
+                        <div class="experience-duration">January 2020 - Present</div>
+                        <p class="experience-description">
+                            Led the development of microservices architecture and implemented RESTful APIs.
+                            Collaborated with cross-functional teams to deliver high-quality software solutions.
+                        </p>
+                    </div>
+                    
+                    <div class="experience-item">
+                        <h3 class="experience-title">Software Engineer</h3>
+                        <div class="experience-company">Web Development Co.</div>
+                        <div class="experience-duration">June 2017 - December 2019</div>
+                        <p class="experience-description">
+                            Developed and maintained web applications using Java and Spring Framework.
+                            Implemented database optimizations and improved application performance.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="education-section">
+                    <h2 class="section-title">Education</h2>
+                    <div class="education-item">
+                        <h3 class="education-title">Master of Science in Computer Science</h3>
+                        <div class="education-institution">Stanford University</div>
+                        <div class="education-duration">2015 - 2017</div>
+                    </div>
+                    
+                    <div class="education-item">
+                        <h3 class="education-title">Bachelor of Science in Computer Engineering</h3>
+                        <div class="education-institution">University of California, Berkeley</div>
+                        <div class="education-duration">2011 - 2015</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuBtn.querySelector('i').classList.toggle('bx-menu');
+            menuBtn.querySelector('i').classList.toggle('bx-x');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuBtn.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuBtn.querySelector('i').classList.add('bx-menu');
+                menuBtn.querySelector('i').classList.remove('bx-x');
+            }
+        });
+
+        // Logout function
+        function logout() {
+            // Prevent multiple clicks
+            const logoutBtn = document.querySelector('a[onclick="logout(); return false;"]');
+            if (logoutBtn) {
+                logoutBtn.style.pointerEvents = 'none';
+                logoutBtn.style.opacity = '0.7';
+            }
+
+            // Clear any client-side storage
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // Call the logout endpoint
+            fetch('/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect to login page with success message
+                    window.location.href = '/login.html?logout=success';
+                } else {
+                    console.error('Logout failed:', response.status);
+                    // Still redirect to login page
+                    window.location.href = '/login.html';
+                }
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+                // Still redirect to login page even if there's an error
+                window.location.href = '/login.html';
+            })
+            .finally(() => {
+                // Re-enable the button in case of error
+                if (logoutBtn) {
+                    logoutBtn.style.pointerEvents = 'auto';
+                    logoutBtn.style.opacity = '1';
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

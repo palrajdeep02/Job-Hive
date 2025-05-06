@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Jobs - Job Hive</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e2e2e2, #c9d6ff);
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px) saturate(160%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%);
+            padding: 15px 0;
+            box-shadow: 
+                0 4px 30px rgba(0, 0, 0, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4267B2;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px) scale(1.05);
+            text-shadow: 0 0 15px rgba(66, 103, 178, 0.5);
+        }
+
+        .logo i {
+            font-size: 32px;
+            color: #FFA000;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .logo:hover i {
+            transform: rotate(360deg);
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #4267B2, #365899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #4267B2, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-links a i {
+            font-size: 20px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .nav-links a:hover {
+            color: #4267B2;
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a:hover i {
+            transform: rotate(15deg) scale(1.2);
+            color: #FFA000;
+        }
+
+        .nav-links .active {
+            color: #4267B2;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-links .active i {
+            color: #FFA000;
+        }
+
+        .nav-links .btn {
+            background: rgba(66, 103, 178, 0.1);
+            color: #4267B2;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid rgba(66, 103, 178, 0.2);
+        }
+
+        .nav-links .btn:hover {
+            background: rgba(66, 103, 178, 0.2);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 15px rgba(66, 103, 178, 0.2);
+        }
+
+        .nav-links .btn:hover i {
+            transform: rotate(-180deg);
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .jobs-container {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            padding: 0 20px;
+            padding-top: 120px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .search-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.1);
+            color: #2c3e50;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .search-input:focus {
+            border-color: rgba(66, 103, 178, 0.5);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 103, 178, 0.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, rgba(66, 103, 178, 0.9), rgba(54, 88, 153, 0.9));
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, rgba(66, 103, 178, 1), rgba(54, 88, 153, 1));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(66, 103, 178, 0.3);
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 8px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #2c3e50;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .filter-select:focus {
+            border-color: rgba(66, 103, 178, 0.5);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 103, 178, 0.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .job-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .job-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .company-name {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .job-type {
+            background: rgba(66, 103, 178, 0.1);
+            color: #4267B2;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid rgba(66, 103, 178, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .job-type:hover {
+            background: rgba(66, 103, 178, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(66, 103, 178, 0.1);
+        }
+
+        .job-details {
+            margin-bottom: 20px;
+        }
+
+        .job-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .meta-item i {
+            color: #4267B2;
+        }
+
+        .job-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .salary {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .apply-btn {
+            background: linear-gradient(135deg, rgba(66, 103, 178, 0.9), rgba(54, 88, 153, 0.9));
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .apply-btn:hover {
+            background: linear-gradient(135deg, rgba(66, 103, 178, 1), rgba(54, 88, 153, 1));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(66, 103, 178, 0.3);
+        }
+
+        @media screen and (max-width: 768px) {
+            .menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                border-radius: 0 0 15px 15px;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-links .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-input, .search-btn {
+                width: 100%;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+
+            .jobs-container {
+                padding-top: 100px;
+                padding: 100px 1rem 0;
+            }
+
+            .search-section {
+                padding: 20px;
+            }
+
+            .jobs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <i class='bx bxs-hexagon'></i>
+                <span>Job Hive</span>
+            </a>
+            <button class="menu-btn" id="menuBtn">
+                <i class='bx bx-menu'></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="jobs.html" class="active">
+                    <i class='bx bx-search'></i>
+                    Find Jobs
+                </a>
+                <a href="dashboard.html">
+                    <i class='bx bx-home'></i>
+                    Dashboard
+                </a>
+                <a href="applications.html">
+                    <i class='bx bx-file'></i>
+                    Applications
+                </a>
+                <a href="messages.html">
+                    <i class='bx bx-message-dots'></i>
+                    Messages
+                </a>
+                <a href="profile.html">
+                    <i class='bx bx-user'></i>
+                    Profile
+                </a>
+                <a href="#" onclick="logout(); return false;" class="btn">
+                    <i class='bx bx-log-out'></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="jobs-container">
+        <div class="search-section">
+            <form class="search-form">
+                <input type="text" class="search-input" placeholder="Job title or keyword">
+                <input type="text" class="search-input" placeholder="Location">
+                <button type="submit" class="search-btn">Search Jobs</button>
+            </form>
+            <div class="filters">
+                <select class="filter-select">
+                    <option value="">Job Type</option>
+                    <option value="full-time">Full Time</option>
+                    <option value="part-time">Part Time</option>
+                    <option value="contract">Contract</option>
+                    <option value="internship">Internship</option>
+                </select>
+                <select class="filter-select">
+                    <option value="">Experience Level</option>
+                    <option value="entry">Entry Level</option>
+                    <option value="mid">Mid Level</option>
+                    <option value="senior">Senior Level</option>
+                </select>
+                <select class="filter-select">
+                    <option value="">Salary Range</option>
+                    <option value="0-30000">$0 - $30,000</option>
+                    <option value="30000-60000">$30,000 - $60,000</option>
+                    <option value="60000-100000">$60,000 - $100,000</option>
+                    <option value="100000+">$100,000+</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="jobs-grid">
+            <!-- Job Card 1 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <h3 class="job-title">Senior Software Engineer</h3>
+                        <p class="company-name">Tech Solutions Inc.</p>
+                    </div>
+                    <span class="job-type">Full Time</span>
+                </div>
+                <div class="job-details">
+                    <div class="job-meta">
+                        <span class="meta-item">
+                            <i class='bx bx-map'></i>
+                            San Francisco, CA
+                        </span>
+                        <span class="meta-item">
+                            <i class='bx bx-briefcase'></i>
+                            5+ years
+                        </span>
+                    </div>
+                    <p class="job-description">
+                        We are looking for a Senior Software Engineer to join our team. You will be responsible for developing and maintaining our core platform.
+                    </p>
+                </div>
+                <div class="job-footer">
+                    <span class="salary">$120,000 - $150,000</span>
+                    <button class="apply-btn">Apply Now</button>
+                </div>
+            </div>
+
+            <!-- Job Card 2 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <h3 class="job-title">Product Manager</h3>
+                        <p class="company-name">Innovation Labs</p>
+                    </div>
+                    <span class="job-type">Full Time</span>
+                </div>
+                <div class="job-details">
+                    <div class="job-meta">
+                        <span class="meta-item">
+                            <i class='bx bx-map'></i>
+                            New York, NY
+                        </span>
+                        <span class="meta-item">
+                            <i class='bx bx-briefcase'></i>
+                            3+ years
+                        </span>
+                    </div>
+                    <p class="job-description">
+                        Join our team as a Product Manager and help shape the future of our products. You'll work closely with engineering and design teams.
+                    </p>
+                </div>
+                <div class="job-footer">
+                    <span class="salary">$100,000 - $130,000</span>
+                    <button class="apply-btn">Apply Now</button>
+                </div>
+            </div>
+
+            <!-- Job Card 3 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <h3 class="job-title">UX Designer</h3>
+                        <p class="company-name">Creative Studio</p>
+                    </div>
+                    <span class="job-type">Contract</span>
+                </div>
+                <div class="job-details">
+                    <div class="job-meta">
+                        <span class="meta-item">
+                            <i class='bx bx-map'></i>
+                            Remote
+                        </span>
+                        <span class="meta-item">
+                            <i class='bx bx-briefcase'></i>
+                            2+ years
+                        </span>
+                    </div>
+                    <p class="job-description">
+                        We're seeking a talented UX Designer to create beautiful and intuitive user experiences for our clients.
+                    </p>
+                </div>
+                <div class="job-footer">
+                    <span class="salary">$80,000 - $100,000</span>
+                    <button class="apply-btn">Apply Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuBtn.querySelector('i').classList.toggle('bx-menu');
+            menuBtn.querySelector('i').classList.toggle('bx-x');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuBtn.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuBtn.querySelector('i').classList.add('bx-menu');
+                menuBtn.querySelector('i').classList.remove('bx-x');
+            }
+        });
+
+        // Function to fetch jobs
+        async function fetchJobs() {
+            try {
+                const response = await fetch('/api/jobs', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        window.location.href = '/login.html';
+                        return;
+                    }
+                    throw new Error('Failed to fetch jobs');
+                }
+
+                const jobs = await response.json();
+                displayJobs(jobs);
+            } catch (error) {
+                console.error('Error fetching jobs:', error);
+                showNotification('Failed to load jobs. Please try again later.');
+            }
+        }
+
+        // Function to display jobs
+        function displayJobs(jobs) {
+            const jobsGrid = document.querySelector('.jobs-grid');
+            jobsGrid.innerHTML = '';
+
+            if (!Array.isArray(jobs) || jobs.length === 0) {
+                jobsGrid.innerHTML = `
+                    <div class="no-jobs">
+                        <i class='bx bx-search-alt'></i>
+                        <h3>No jobs found</h3>
+                        <p>Try adjusting your search criteria</p>
+                    </div>
+                `;
+                return;
+            }
+
+            jobs.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                jobCard.innerHTML = `
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">${job.title}</h3>
+                            <p class="company-name">${job.company?.name || 'No Company'}</p>
+                        </div>
+                        <span class="job-type">${job.type}</span>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-meta">
+                            <span class="meta-item">
+                                <i class='bx bx-map'></i>
+                                ${job.location}
+                            </span>
+                            <span class="meta-item">
+                                <i class='bx bx-briefcase'></i>
+                                ${job.experienceLevel}
+                            </span>
+                        </div>
+                        <p class="job-description">${job.description}</p>
+                    </div>
+                    <div class="job-footer">
+                        <span class="salary">$${job.salary}</span>
+                        <button class="apply-btn" onclick="applyForJob(${job.id})">Apply Now</button>
+                    </div>
+                `;
+                jobsGrid.appendChild(jobCard);
+            });
+        }
+
+        // Function to apply for a job
+        async function applyForJob(jobId) {
+            try {
+                const response = await fetch(`/api/applications`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ jobId })
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        window.location.href = '/login.html';
+                        return;
+                    }
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to apply for job');
+                }
+
+                showNotification('Application submitted successfully!', 'success');
+            } catch (error) {
+                console.error('Error applying for job:', error);
+                showNotification(error.message || 'Failed to apply for job');
+            }
+        }
+
+        // Function to search jobs
+        async function searchJobs() {
+            const searchInput = document.querySelector('.search-input[placeholder="Job title or keyword"]').value;
+            const locationInput = document.querySelector('.search-input[placeholder="Location"]').value;
+            const jobTypeSelect = document.querySelector('.filter-select:first-of-type').value;
+            const experienceSelect = document.querySelector('.filter-select:nth-of-type(2)').value;
+            const salarySelect = document.querySelector('.filter-select:last-of-type').value;
+
+            try {
+                const response = await fetch('/api/jobs/search', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        searchTerm: searchInput,
+                        location: locationInput,
+                        type: jobTypeSelect,
+                        experienceLevel: experienceSelect,
+                        salaryRange: salarySelect
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to search jobs');
+                }
+
+                const jobs = await response.json();
+                displayJobs(jobs);
+            } catch (error) {
+                console.error('Error searching jobs:', error);
+                showNotification('Failed to search jobs. Please try again later.');
+            }
+        }
+
+        // Function to show notification
+        function showNotification(message, type = 'error') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Add notification styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 5px;
+                color: white;
+                font-weight: 500;
+                animation: slideIn 0.3s ease-out;
+            }
+            
+            .notification.error {
+                background-color: #e74c3c;
+            }
+            
+            .notification.success {
+                background-color: #2ecc71;
+            }
+            
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+
+            .no-jobs {
+                grid-column: 1 / -1;
+                text-align: center;
+                padding: 40px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 20px;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .no-jobs i {
+                font-size: 48px;
+                color: #4267B2;
+                margin-bottom: 20px;
+            }
+
+            .no-jobs h3 {
+                color: #333;
+                margin-bottom: 10px;
+            }
+
+            .no-jobs p {
+                color: #666;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add event listeners for search and filters
+        document.querySelector('.search-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            searchJobs();
+        });
+
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', searchJobs);
+        });
+
+        // Fetch jobs when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchJobs();
+        });
+
+        // Logout function
+        function logout() {
+            // Prevent multiple clicks
+            const logoutBtn = document.querySelector('a[onclick="logout(); return false;"]');
+            if (logoutBtn) {
+                logoutBtn.style.pointerEvents = 'none';
+                logoutBtn.style.opacity = '0.7';
+            }
+
+            // Clear any client-side storage
+            localStorage.clear();
+            sessionStorage.clear();
+            
+            // Call the logout endpoint
+            fetch('/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect to login page with success message
+                    window.location.href = '/login.html?logout=success';
+                } else {
+                    console.error('Logout failed:', response.status);
+                    // Still redirect to login page
+                    window.location.href = '/login.html';
+                }
+            })
+            .catch(error => {
+                console.error('Logout error:', error);
+                // Still redirect to login page even if there's an error
+                window.location.href = '/login.html';
+            })
+            .finally(() => {
+                // Re-enable the button in case of error
+                if (logoutBtn) {
+                    logoutBtn.style.pointerEvents = 'auto';
+                    logoutBtn.style.opacity = '1';
+                }
+            });
+        }
+    </script>
+</body>
+</html> 

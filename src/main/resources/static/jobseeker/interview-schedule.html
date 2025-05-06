@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Schedule - Job Portal</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .schedule-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 2rem;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-title {
+            color: #2c3e50;
+        }
+        
+        .schedule-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+        
+        .calendar-section {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .calendar-title {
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .calendar-nav-btn {
+            padding: 0.5rem;
+            border: none;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .calendar-day {
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .day-header {
+            font-weight: 500;
+            color: #7f8c8d;
+        }
+        
+        .day-number {
+            color: #2c3e50;
+        }
+        
+        .day-number.has-interview {
+            background-color: #3498db;
+            color: #fff;
+        }
+        
+        .day-number.today {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+        
+        .interviews-section {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .interviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .interviews-title {
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+        
+        .interview-filters {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            background-color: #f8f9fa;
+            color: #2c3e50;
+        }
+        
+        .filter-btn.active {
+            background-color: #3498db;
+            color: #fff;
+        }
+        
+        .interview-list {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .interview-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1.5rem;
+        }
+        
+        .interview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .interview-info h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .interview-info .company {
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+        
+        .interview-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .status-scheduled {
+            background-color: #3498db;
+            color: #fff;
+        }
+        
+        .status-completed {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+        
+        .status-cancelled {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        
+        .interview-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #7f8c8d;
+        }
+        
+        .detail-item i {
+            color: #3498db;
+        }
+        
+        .interview-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        
+        .view-btn {
+            background-color: #3498db;
+            color: #fff;
+        }
+        
+        .view-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .reschedule-btn {
+            background-color: #f1c40f;
+            color: #fff;
+        }
+        
+        .reschedule-btn:hover {
+            background-color: #f39c12;
+        }
+        
+        .cancel-btn {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .feedback-btn {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+        
+        .feedback-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        @media (max-width: 768px) {
+            .schedule-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .interview-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .interview-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Job Portal</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../jobs.html">Jobs</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="../login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="schedule-container">
+            <div class="page-header">
+                <h1 class="page-title">Interview Schedule</h1>
+            </div>
+            
+            <div class="schedule-layout">
+                <div class="calendar-section">
+                    <div class="calendar-header">
+                        <div class="calendar-title">March 2024</div>
+                        <div class="calendar-nav">
+                            <button class="calendar-nav-btn">←</button>
+                            <button class="calendar-nav-btn">→</button>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-grid">
+                        <div class="calendar-day day-header">Sun</div>
+                        <div class="calendar-day day-header">Mon</div>
+                        <div class="calendar-day day-header">Tue</div>
+                        <div class="calendar-day day-header">Wed</div>
+                        <div class="calendar-day day-header">Thu</div>
+                        <div class="calendar-day day-header">Fri</div>
+                        <div class="calendar-day day-header">Sat</div>
+                        
+                        <div class="calendar-day"><div class="day-number">1</div></div>
+                        <div class="calendar-day"><div class="day-number">2</div></div>
+                        <div class="calendar-day"><div class="day-number">3</div></div>
+                        <div class="calendar-day"><div class="day-number">4</div></div>
+                        <div class="calendar-day"><div class="day-number">5</div></div>
+                        <div class="calendar-day"><div class="day-number">6</div></div>
+                        <div class="calendar-day"><div class="day-number">7</div></div>
+                        <div class="calendar-day"><div class="day-number">8</div></div>
+                        <div class="calendar-day"><div class="day-number">9</div></div>
+                        <div class="calendar-day"><div class="day-number">10</div></div>
+                        <div class="calendar-day"><div class="day-number">11</div></div>
+                        <div class="calendar-day"><div class="day-number">12</div></div>
+                        <div class="calendar-day"><div class="day-number">13</div></div>
+                        <div class="calendar-day"><div class="day-number">14</div></div>
+                        <div class="calendar-day"><div class="day-number today">15</div></div>
+                        <div class="calendar-day"><div class="day-number has-interview">16</div></div>
+                        <div class="calendar-day"><div class="day-number">17</div></div>
+                        <div class="calendar-day"><div class="day-number">18</div></div>
+                        <div class="calendar-day"><div class="day-number">19</div></div>
+                        <div class="calendar-day"><div class="day-number">20</div></div>
+                        <div class="calendar-day"><div class="day-number">21</div></div>
+                        <div class="calendar-day"><div class="day-number">22</div></div>
+                        <div class="calendar-day"><div class="day-number">23</div></div>
+                        <div class="calendar-day"><div class="day-number">24</div></div>
+                        <div class="calendar-day"><div class="day-number">25</div></div>
+                        <div class="calendar-day"><div class="day-number">26</div></div>
+                        <div class="calendar-day"><div class="day-number">27</div></div>
+                        <div class="calendar-day"><div class="day-number">28</div></div>
+                        <div class="calendar-day"><div class="day-number">29</div></div>
+                        <div class="calendar-day"><div class="day-number">30</div></div>
+                        <div class="calendar-day"><div class="day-number">31</div></div>
+                    </div>
+                </div>
+                
+                <div class="interviews-section">
+                    <div class="interviews-header">
+                        <h2 class="interviews-title">Upcoming Interviews</h2>
+                        <div class="interview-filters">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Upcoming</button>
+                            <button class="filter-btn">Completed</button>
+                        </div>
+                    </div>
+                    
+                    <div class="interview-list">
+                        <div class="interview-item">
+                            <div class="interview-header">
+                                <div class="interview-info">
+                                    <h3>Senior Software Engineer</h3>
+                                    <div class="company">Tech Solutions Inc.</div>
+                                    <span class="interview-status status-scheduled">Scheduled</span>
+                                </div>
+                            </div>
+                            
+                            <div class="interview-details">
+                                <div class="detail-item">
+                                    <i>📅</i> March 16, 2024
+                                </div>
+                                <div class="detail-item">
+                                    <i>⏰</i> 10:00 AM - 11:30 AM
+                                </div>
+                                <div class="detail-item">
+                                    <i>📍</i> Virtual (Zoom)
+                                </div>
+                                <div class="detail-item">
+                                    <i>👤</i> John Smith (Technical Lead)
+                                </div>
+                            </div>
+                            
+                            <div class="interview-actions">
+                                <button class="action-btn view-btn">View Details</button>
+                                <button class="action-btn reschedule-btn">Reschedule</button>
+                                <button class="action-btn cancel-btn">Cancel</button>
+                            </div>
+                        </div>
+                        
+                        <div class="interview-item">
+                            <div class="interview-header">
+                                <div class="interview-info">
+                                    <h3>Product Manager</h3>
+                                    <div class="company">Innovation Labs</div>
+                                    <span class="interview-status status-completed">Completed</span>
+                                </div>
+                            </div>
+                            
+                            <div class="interview-details">
+                                <div class="detail-item">
+                                    <i>📅</i> March 10, 2024
+                                </div>
+                                <div class="detail-item">
+                                    <i>⏰</i> 2:00 PM - 3:00 PM
+                                </div>
+                                <div class="detail-item">
+                                    <i>📍</i> On-site
+                                </div>
+                                <div class="detail-item">
+                                    <i>👤</i> Sarah Johnson (Product Director)
+                                </div>
+                            </div>
+                            
+                            <div class="interview-actions">
+                                <button class="action-btn view-btn">View Details</button>
+                                <button class="action-btn feedback-btn">Submit Feedback</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html> 

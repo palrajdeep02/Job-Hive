@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+        }
+        .status-active {
+            background-color: #e6f7e6;
+            color: #2e7d32;
+        }
+        .status-inactive {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        .type-admin {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        .type-employer {
+            background-color: #fff8e1;
+            color: #f57f17;
+        }
+        .type-job_seeker {
+            background-color: #f3e5f5;
+            color: #6a1b9a;
+        }
+        .job-type-full_time {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        .job-type-part_time {
+            background-color: #fff8e1;
+            color: #f57f17;
+        }
+        .job-type-contract {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+        .job-type-internship {
+            background-color: #f3e5f5;
+            color: #6a1b9a;
+        }
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .job-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .job-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .job-company {
+            font-weight: bold;
+            color: #666;
+        }
+        .job-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .job-detail {
+            display: flex;
+            flex-direction: column;
+        }
+        .detail-label {
+            font-size: 12px;
+            color: #666;
+        }
+        .detail-value {
+            font-weight: bold;
+        }
+        .debug-info {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Database Test Page</h1>
+    
+    <div class="section">
+        <h2>Users</h2>
+        <div id="users-error-container"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body">
+                <!-- Users will be displayed here -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="section">
+        <h2>Jobs</h2>
+        <div id="jobs-error-container"></div>
+        <div id="debug-container"></div>
+        <div id="jobs-container">
+            <!-- Jobs will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchUsers();
+            fetchJobs();
+        });
+
+        async function fetchUsers() {
+            try {
+                const response = await fetch('/api/admin/users');
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch users: ${response.status} ${response.statusText}`);
+                }
+                
+                const users = await response.json();
+                displayUsers(users);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('users-error-container').innerHTML = `
+                    <div class="error-message">${error.message}</div>
+                `;
+            }
+        }
+
+        function displayUsers(users) {
+            const tableBody = document.getElementById('users-table-body');
+            tableBody.innerHTML = '';
+
+            if (!Array.isArray(users) || users.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 20px;">
+                            No users found
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.name || 'N/A'}</td>
+                    <td>${user.email || 'N/A'}</td>
+                    <td>
+                        <span class="badge type-${(user.role || '').toLowerCase()}">
+                            ${user.role || 'N/A'}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge status-${user.enabled ? 'active' : 'inactive'}">
+                            ${user.enabled ? 'Active' : 'Inactive'}
+                        </span>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        
+        async function fetchJobs() {
+            try {
+                console.log('Fetching jobs...');
+                const response = await fetch('/api/jobs');
+                
+                // Show the response information for debugging
+                const debugContainer = document.getElementById('debug-container');
+                debugContainer.innerHTML = `
+                    <div class="debug-info">
+                        <strong>Response Status:</strong> ${response.status} ${response.statusText}
+                    </div>
+                `;
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Failed to fetch jobs: ${response.status} ${response.statusText}\nResponse: ${errorText}`);
+                }
+                
+                let jobs;
+                const text = await response.text();
+                try {
+                    jobs = JSON.parse(text);
+                    debugContainer.innerHTML += `
+                        <div class="debug-info">
+                            <strong>Response Body:</strong> ${JSON.stringify(jobs, null, 2)}
+                        </div>
+                    `;
+                } catch (e) {
+                    debugContainer.innerHTML += `
+                        <div class="debug-info">
+                            <strong>Raw Response:</strong> ${text}
+                            <strong>Parse Error:</strong> ${e.message}
+                        </div>
+                    `;
+                    throw new Error(`Failed to parse jobs response: ${e.message}`);
+                }
+                
+                displayJobs(jobs);
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('jobs-error-container').innerHTML = `
+                    <div class="error-message">${error.message}</div>
+                `;
+            }
+        }
+        
+        function displayJobs(jobs) {
+            const container = document.getElementById('jobs-container');
+            container.innerHTML = '';
+
+            if (!Array.isArray(jobs) || jobs.length === 0) {
+                container.innerHTML = `
+                    <div class="error-message">No jobs found</div>
+                `;
+                return;
+            }
+            
+            jobs.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                
+                jobCard.innerHTML = `
+                    <div class="job-header">
+                        <h3 class="job-title">${job.title || 'N/A'}</h3>
+                        <span class="badge job-type-${(job.type || '').toLowerCase()}">${job.type || 'N/A'}</span>
+                    </div>
+                    <div class="job-company">${job.company ? job.company.name : 'N/A'}</div>
+                    
+                    <div class="job-details">
+                        <div class="job-detail">
+                            <span class="detail-label">Location</span>
+                            <span class="detail-value">${job.location || 'N/A'}</span>
+                        </div>
+                        <div class="job-detail">
+                            <span class="detail-label">Salary</span>
+                            <span class="detail-value">${job.salary || 'N/A'}</span>
+                        </div>
+                        <div class="job-detail">
+                            <span class="detail-label">Experience Level</span>
+                            <span class="detail-value">${job.experienceLevel || 'N/A'}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="job-description">
+                        <p>${job.description || 'No description available'}</p>
+                    </div>
+                    
+                    <div class="job-requirements">
+                        <h4>Requirements</h4>
+                        <p>${job.requirements || 'No requirements specified'}</p>
+                    </div>
+                    
+                    ${job.benefits ? `
+                    <div class="job-benefits">
+                        <h4>Benefits</h4>
+                        <p>${job.benefits}</p>
+                    </div>` : ''}
+                `;
+                
+                container.appendChild(jobCard);
+            });
+        }
+    </script>
+</body>
+</html> 

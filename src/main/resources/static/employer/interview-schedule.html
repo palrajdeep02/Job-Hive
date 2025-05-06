@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Schedule - Job Portal</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .schedule-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 2rem;
+        }
+        
+        .schedule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .schedule-title {
+            color: #2c3e50;
+        }
+        
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+        
+        .calendar-section {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .calendar-title {
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .nav-btn {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background-color: #e9ecef;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .calendar-day:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .calendar-day.today {
+            background-color: #3498db;
+            color: #fff;
+            border-color: #3498db;
+        }
+        
+        .calendar-day.has-interview {
+            background-color: #2ecc71;
+            color: #fff;
+            border-color: #2ecc71;
+        }
+        
+        .calendar-day.weekend {
+            background-color: #f8f9fa;
+            color: #bdc3c7;
+        }
+        
+        .interviews-section {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .interviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .interviews-title {
+            color: #2c3e50;
+            font-size: 1.2rem;
+        }
+        
+        .interview-filters {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 20px;
+            background-color: #f8f9fa;
+            color: #7f8c8d;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .filter-btn:hover {
+            background-color: #e9ecef;
+        }
+        
+        .filter-btn.active {
+            background-color: #3498db;
+            color: #fff;
+        }
+        
+        .interview-list {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .interview-card {
+            padding: 1.5rem;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .interview-card:hover {
+            border-color: #3498db;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .interview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .candidate-info {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .candidate-photo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+        }
+        
+        .candidate-details h3 {
+            color: #2c3e50;
+            margin-bottom: 0.3rem;
+        }
+        
+        .candidate-title {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .interview-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .status-scheduled {
+            background-color: #3498db;
+            color: #fff;
+        }
+        
+        .status-completed {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+        
+        .status-cancelled {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        
+        .interview-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        
+        .detail-label {
+            color: #7f8c8d;
+            font-size: 0.8rem;
+        }
+        
+        .detail-value {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .interview-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .action-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .view-profile-btn {
+            background-color: #3498db;
+            color: #fff;
+        }
+        
+        .view-profile-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .reschedule-btn {
+            background-color: #f1c40f;
+            color: #fff;
+        }
+        
+        .reschedule-btn:hover {
+            background-color: #f39c12;
+        }
+        
+        .cancel-btn {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .feedback-btn {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+        
+        .feedback-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        @media (max-width: 768px) {
+            .schedule-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-section {
+                margin-bottom: 2rem;
+            }
+            
+            .interview-filters {
+                flex-wrap: wrap;
+            }
+            
+            .interview-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .interview-actions {
+                flex-wrap: wrap;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Job Portal</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="/employer/dashboard.html">
+                    <i class='bx bxs-dashboard'></i>
+                    Dashboard
+                </a></li>
+                <li><a href="/employer/post-job.html">
+                    <i class='bx bx-briefcase'></i>
+                    Jobs
+                </a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="../login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="schedule-container">
+            <div class="schedule-header">
+                <h1 class="schedule-title">Interview Schedule</h1>
+            </div>
+            
+            <div class="schedule-grid">
+                <div class="calendar-section">
+                    <div class="calendar-header">
+                        <h2 class="calendar-title">March 2024</h2>
+                        <div class="calendar-nav">
+                            <button class="nav-btn">←</button>
+                            <button class="nav-btn">→</button>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-grid">
+                        <div class="calendar-day weekend">Sun</div>
+                        <div class="calendar-day">Mon</div>
+                        <div class="calendar-day">Tue</div>
+                        <div class="calendar-day">Wed</div>
+                        <div class="calendar-day">Thu</div>
+                        <div class="calendar-day">Fri</div>
+                        <div class="calendar-day weekend">Sat</div>
+                        
+                        <div class="calendar-day weekend">1</div>
+                        <div class="calendar-day">2</div>
+                        <div class="calendar-day">3</div>
+                        <div class="calendar-day">4</div>
+                        <div class="calendar-day">5</div>
+                        <div class="calendar-day">6</div>
+                        <div class="calendar-day weekend">7</div>
+                        
+                        <div class="calendar-day weekend">8</div>
+                        <div class="calendar-day">9</div>
+                        <div class="calendar-day">10</div>
+                        <div class="calendar-day has-interview">11</div>
+                        <div class="calendar-day has-interview">12</div>
+                        <div class="calendar-day">13</div>
+                        <div class="calendar-day weekend">14</div>
+                        
+                        <div class="calendar-day weekend">15</div>
+                        <div class="calendar-day">16</div>
+                        <div class="calendar-day has-interview">17</div>
+                        <div class="calendar-day">18</div>
+                        <div class="calendar-day">19</div>
+                        <div class="calendar-day">20</div>
+                        <div class="calendar-day weekend">21</div>
+                        
+                        <div class="calendar-day weekend">22</div>
+                        <div class="calendar-day">23</div>
+                        <div class="calendar-day">24</div>
+                        <div class="calendar-day">25</div>
+                        <div class="calendar-day">26</div>
+                        <div class="calendar-day">27</div>
+                        <div class="calendar-day weekend">28</div>
+                        
+                        <div class="calendar-day weekend">29</div>
+                        <div class="calendar-day">30</div>
+                        <div class="calendar-day">31</div>
+                        <div class="calendar-day"></div>
+                        <div class="calendar-day"></div>
+                        <div class="calendar-day"></div>
+                        <div class="calendar-day weekend"></div>
+                    </div>
+                </div>
+                
+                <div class="interviews-section">
+                    <div class="interviews-header">
+                        <h2 class="interviews-title">Interviews</h2>
+                        <div class="interview-filters">
+                            <button class="filter-btn active">All</button>
+                            <button class="filter-btn">Upcoming</button>
+                            <button class="filter-btn">Completed</button>
+                        </div>
+                    </div>
+                    
+                    <div class="interview-list">
+                        <div class="interview-card">
+                            <div class="interview-header">
+                                <div class="candidate-info">
+                                    <img src="../../assets/images/candidate-1.jpg" alt="John Doe" class="candidate-photo">
+                                    <div class="candidate-details">
+                                        <h3>John Doe</h3>
+                                        <div class="candidate-title">Senior Software Engineer</div>
+                                    </div>
+                                </div>
+                                <span class="interview-status status-scheduled">Scheduled</span>
+                            </div>
+                            
+                            <div class="interview-details">
+                                <div class="detail-item">
+                                    <div class="detail-label">Date</div>
+                                    <div class="detail-value">March 11, 2024</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Time</div>
+                                    <div class="detail-value">10:00 AM - 11:00 AM</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Type</div>
+                                    <div class="detail-value">Technical Interview</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Interviewer</div>
+                                    <div class="detail-value">Sarah Johnson (CTO)</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Location</div>
+                                    <div class="detail-value">Conference Room A</div>
+                                </div>
+                            </div>
+                            
+                            <div class="interview-actions">
+                                <button class="action-btn view-profile-btn">
+                                    <span>👤</span> View Profile
+                                </button>
+                                <button class="action-btn reschedule-btn">
+                                    <span>📅</span> Reschedule
+                                </button>
+                                <button class="action-btn cancel-btn">
+                                    <span>❌</span> Cancel
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="interview-card">
+                            <div class="interview-header">
+                                <div class="candidate-info">
+                                    <img src="../../assets/images/candidate-2.jpg" alt="Sarah Smith" class="candidate-photo">
+                                    <div class="candidate-details">
+                                        <h3>Sarah Smith</h3>
+                                        <div class="candidate-title">Product Manager</div>
+                                    </div>
+                                </div>
+                                <span class="interview-status status-scheduled">Scheduled</span>
+                            </div>
+                            
+                            <div class="interview-details">
+                                <div class="detail-item">
+                                    <div class="detail-label">Date</div>
+                                    <div class="detail-value">March 12, 2024</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Time</div>
+                                    <div class="detail-value">2:00 PM - 3:00 PM</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Type</div>
+                                    <div class="detail-value">Product Discussion</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Interviewer</div>
+                                    <div class="detail-value">Michael Brown (Product Lead)</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Location</div>
+                                    <div class="detail-value">Conference Room B</div>
+                                </div>
+                            </div>
+                            
+                            <div class="interview-actions">
+                                <button class="action-btn view-profile-btn">
+                                    <span>👤</span> View Profile
+                                </button>
+                                <button class="action-btn reschedule-btn">
+                                    <span>📅</span> Reschedule
+                                </button>
+                                <button class="action-btn cancel-btn">
+                                    <span>❌</span> Cancel
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="interview-card">
+                            <div class="interview-header">
+                                <div class="candidate-info">
+                                    <img src="../../assets/images/candidate-3.jpg" alt="Michael Johnson" class="candidate-photo">
+                                    <div class="candidate-details">
+                                        <h3>Michael Johnson</h3>
+                                        <div class="candidate-title">UX/UI Designer</div>
+                                    </div>
+                                </div>
+                                <span class="interview-status status-completed">Completed</span>
+                            </div>
+                            
+                            <div class="interview-details">
+                                <div class="detail-item">
+                                    <div class="detail-label">Date</div>
+                                    <div class="detail-value">March 17, 2024</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Time</div>
+                                    <div class="detail-value">11:00 AM - 12:00 PM</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Type</div>
+                                    <div class="detail-value">Portfolio Review</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Interviewer</div>
+                                    <div class="detail-value">Emily Davis (Design Lead)</div>
+                                </div>
+                                
+                                <div class="detail-item">
+                                    <div class="detail-label">Location</div>
+                                    <div class="detail-value">Conference Room C</div>
+                                </div>
+                            </div>
+                            
+                            <div class="interview-actions">
+                                <button class="action-btn view-profile-btn">
+                                    <span>👤</span> View Profile
+                                </button>
+                                <button class="action-btn feedback-btn">
+                                    <span>📝</span> Submit Feedback
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html> 

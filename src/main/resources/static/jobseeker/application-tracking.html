@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Tracking - Job Portal</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .tracking-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 2rem;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .page-title {
+            color: #2c3e50;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .application-list {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .application-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .job-info h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .job-info .company {
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .status-pending {
+            background-color: #f1c40f;
+            color: #fff;
+        }
+        
+        .status-reviewing {
+            background-color: #3498db;
+            color: #fff;
+        }
+        
+        .status-shortlisted {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+        
+        .status-rejected {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        
+        .application-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            color: #7f8c8d;
+        }
+        
+        .meta-item i {
+            margin-right: 0.5rem;
+        }
+        
+        .timeline {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #ddd;
+        }
+        
+        .timeline-title {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline-date {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            min-width: 100px;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .timeline-status {
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+        
+        .timeline-details {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .application-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        
+        .view-btn {
+            background-color: #3498db;
+            color: #fff;
+        }
+        
+        .view-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .withdraw-btn {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        
+        .withdraw-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        .page-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .page-btn:hover,
+        .page-btn.active {
+            background-color: #3498db;
+            color: #fff;
+            border-color: #3498db;
+        }
+        
+        @media (max-width: 768px) {
+            .application-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .application-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Job Portal</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../jobs.html">Jobs</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="../login.html">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="tracking-container">
+            <div class="page-header">
+                <h1 class="page-title">Application Tracking</h1>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Total Applications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Under Review</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Shortlisted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Interviews Scheduled</div>
+                </div>
+            </div>
+            
+            <div class="application-list">
+                <div class="application-item">
+                    <div class="application-header">
+                        <div class="job-info">
+                            <h3>Senior Software Engineer</h3>
+                            <div class="company">Tech Solutions Inc.</div>
+                            <span class="status-badge status-reviewing">Under Review</span>
+                        </div>
+                    </div>
+                    
+                    <div class="application-meta">
+                        <div class="meta-item">
+                            <i>📍</i> San Francisco, CA
+                        </div>
+                        <div class="meta-item">
+                            <i>💰</i> $120,000 - $150,000
+                        </div>
+                        <div class="meta-item">
+                            <i>⏰</i> Applied on: March 10, 2024
+                        </div>
+                    </div>
+                    
+                    <div class="timeline">
+                        <h4 class="timeline-title">Application Timeline</h4>
+                        <div class="timeline-item">
+                            <div class="timeline-date">March 10, 2024</div>
+                            <div class="timeline-content">
+                                <div class="timeline-status">Application Submitted</div>
+                                <div class="timeline-details">Your application has been received and is being reviewed.</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">March 12, 2024</div>
+                            <div class="timeline-content">
+                                <div class="timeline-status">Under Review</div>
+                                <div class="timeline-details">Your application is currently being reviewed by the hiring team.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="application-actions">
+                        <button class="action-btn view-btn">View Job Details</button>
+                        <button class="action-btn withdraw-btn">Withdraw Application</button>
+                    </div>
+                </div>
+                
+                <div class="application-item">
+                    <div class="application-header">
+                        <div class="job-info">
+                            <h3>Product Manager</h3>
+                            <div class="company">Innovation Labs</div>
+                            <span class="status-badge status-shortlisted">Shortlisted</span>
+                        </div>
+                    </div>
+                    
+                    <div class="application-meta">
+                        <div class="meta-item">
+                            <i>📍</i> Remote
+                        </div>
+                        <div class="meta-item">
+                            <i>💰</i> $130,000 - $160,000
+                        </div>
+                        <div class="meta-item">
+                            <i>⏰</i> Applied on: March 5, 2024
+                        </div>
+                    </div>
+                    
+                    <div class="timeline">
+                        <h4 class="timeline-title">Application Timeline</h4>
+                        <div class="timeline-item">
+                            <div class="timeline-date">March 5, 2024</div>
+                            <div class="timeline-content">
+                                <div class="timeline-status">Application Submitted</div>
+                                <div class="timeline-details">Your application has been received and is being reviewed.</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">March 8, 2024</div>
+                            <div class="timeline-content">
+                                <div class="timeline-status">Under Review</div>
+                                <div class="timeline-details">Your application is currently being reviewed by the hiring team.</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">March 15, 2024</div>
+                            <div class="timeline-content">
+                                <div class="timeline-status">Shortlisted</div>
+                                <div class="timeline-details">Your application has been shortlisted. The hiring team will contact you soon.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="application-actions">
+                        <button class="action-btn view-btn">View Job Details</button>
+                        <button class="action-btn withdraw-btn">Withdraw Application</button>
+                    </div>
+                </div>
+                
+                <div class="pagination">
+                    <button class="page-btn">Previous</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">Next</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/main.js"></script>
+</body>
+</html> 

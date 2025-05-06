@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Details - Job Portal</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .job-details-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .job-info {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .job-header {
+            margin-bottom: 2rem;
+        }
+        
+        .job-header h1 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .job-header .company {
+            color: #3498db;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .job-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .job-meta-item {
+            display: flex;
+            align-items: center;
+            color: #7f8c8d;
+        }
+        
+        .job-meta-item i {
+            margin-right: 0.5rem;
+        }
+        
+        .job-type {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background-color: #f8f9fa;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .job-description {
+            margin-bottom: 2rem;
+        }
+        
+        .job-description h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .job-description p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .job-requirements h2,
+        .job-benefits h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .job-requirements ul,
+        .job-benefits ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .job-requirements li,
+        .job-benefits li {
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .job-requirements li:before,
+        .job-benefits li:before {
+            content: "•";
+            color: #3498db;
+            position: absolute;
+            left: 0;
+        }
+        
+        .apply-section {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+        
+        .apply-section h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+        
+        .apply-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .apply-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .apply-form input,
+        .apply-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .apply-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .apply-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .apply-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        @media (max-width: 768px) {
+            .job-details-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Job Portal</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="jobs.html">Jobs</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="job-details-container">
+            <div class="job-info">
+                <div class="job-header">
+                    <h1>Senior Software Engineer</h1>
+                    <div class="company">Tech Solutions Inc.</div>
+                    <div class="job-meta">
+                        <div class="job-meta-item">
+                            <i>📍</i> San Francisco, CA
+                        </div>
+                        <div class="job-meta-item">
+                            <i>💰</i> $120,000 - $150,000
+                        </div>
+                        <div class="job-meta-item">
+                            <i>⏰</i> Full Time
+                        </div>
+                    </div>
+                    <div class="job-type">Full Time</div>
+                </div>
+                
+                <div class="job-description">
+                    <h2>Job Description</h2>
+                    <p>We are looking for an experienced software engineer to join our team. The ideal candidate will have strong experience in Java, Spring, and microservices architecture.</p>
+                    <p>As a Senior Software Engineer, you will be responsible for designing, developing, and maintaining high-quality software solutions. You will work closely with cross-functional teams to deliver innovative features and improvements.</p>
+                </div>
+                
+                <div class="job-requirements">
+                    <h2>Requirements</h2>
+                    <ul>
+                        <li>5+ years of experience in software development</li>
+                        <li>Strong proficiency in Java and Spring Framework</li>
+                        <li>Experience with microservices architecture</li>
+                        <li>Knowledge of RESTful APIs and web services</li>
+                        <li>Experience with database design and optimization</li>
+                        <li>Strong problem-solving and analytical skills</li>
+                        <li>Excellent communication and teamwork abilities</li>
+                    </ul>
+                </div>
+                
+                <div class="job-benefits">
+                    <h2>Benefits</h2>
+                    <ul>
+                        <li>Competitive salary and bonus structure</li>
+                        <li>Comprehensive health insurance</li>
+                        <li>401(k) matching</li>
+                        <li>Flexible work hours and remote work options</li>
+                        <li>Professional development opportunities</li>
+                        <li>Generous vacation and paid time off</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="apply-section">
+                <h2>Apply for this Position</h2>
+                <form class="apply-form">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="resume">Resume (PDF or DOC)</label>
+                        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="coverLetter">Cover Letter</label>
+                        <textarea id="coverLetter" name="coverLetter" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="apply-btn">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html> 

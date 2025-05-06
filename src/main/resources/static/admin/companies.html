@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Companies Management - Job Hive</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e2e2e2, #c9d6ff);
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px) saturate(160%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%);
+            padding: 15px 0;
+            box-shadow: 
+                0 4px 30px rgba(0, 0, 0, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4267B2;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+        }
+
+        .logo:hover {
+            transform: translateY(-2px) scale(1.05);
+            text-shadow: 0 0 15px rgba(66, 103, 178, 0.5);
+        }
+
+        .logo i {
+            font-size: 32px;
+            color: #FFA000;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .logo:hover i {
+            transform: rotate(360deg);
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #4267B2, #365899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #4267B2, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-links a i {
+            font-size: 20px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .nav-links a:hover {
+            color: #4267B2;
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a:hover i {
+            transform: rotate(15deg) scale(1.2);
+            color: #FFA000;
+        }
+
+        .nav-links .active {
+            color: #4267B2;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-links .active i {
+            color: #FFA000;
+        }
+
+        .nav-links .btn {
+            background: rgba(66, 103, 178, 0.1);
+            color: #4267B2;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid rgba(66, 103, 178, 0.2);
+        }
+
+        .nav-links .btn:hover {
+            background: rgba(66, 103, 178, 0.2);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 15px rgba(66, 103, 178, 0.2);
+        }
+
+        .nav-links .btn:hover i {
+            transform: rotate(-180deg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+        }
+        
+        .companies-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .companies-title {
+            color: #2c3e50;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .add-company-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background-color: #4267B2;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .add-company-btn:hover {
+            background-color: #365899;
+            transform: translateY(-2px);
+        }
+        
+        .filters-section {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .filters-title {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .filter-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .filter-input {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-input:focus {
+            border-color: #4267B2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(66, 103, 178, 0.1);
+        }
+        
+        .filter-select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-select:focus {
+            border-color: #4267B2;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(66, 103, 178, 0.1);
+        }
+        
+        .filter-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .apply-btn {
+            background-color: #4267B2;
+            color: #fff;
+        }
+        
+        .apply-btn:hover {
+            background-color: #365899;
+            transform: translateY(-2px);
+        }
+        
+        .reset-btn {
+            background-color: #f8f9fa;
+            color: #7f8c8d;
+        }
+        
+        .reset-btn:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+        }
+        
+        .companies-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .companies-table th {
+            background-color: #f8f9fa;
+            color: #7f8c8d;
+            font-weight: 500;
+            text-align: left;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .companies-table td {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+        
+        .companies-table tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .company-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .company-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+        }
+        
+        .company-name {
+            font-weight: 500;
+        }
+        
+        .company-industry {
+            color: #7f8c8d;
+            font-size: 0.8rem;
+        }
+        
+        .company-size {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .size-small {
+            background-color: #4267B2;
+            color: #fff;
+        }
+        
+        .size-medium {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+        
+        .size-large {
+            background-color: #f1c40f;
+            color: #fff;
+        }
+        
+        .size-enterprise {
+            background-color: #9b59b6;
+            color: #fff;
+        }
+        
+        .company-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .status-active {
+            background-color: #2ecc71;
+            color: #fff;
+        }
+        
+        .status-inactive {
+            background-color: #f1c40f;
+            color: #fff;
+        }
+        
+        .status-suspended {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        
+        .company-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .edit-btn {
+            background-color: #4267B2;
+            color: #fff;
+        }
+        
+        .edit-btn:hover {
+            background-color: #365899;
+            transform: translateY(-2px);
+        }
+        
+        .delete-btn {
+            background-color: #e74c3c;
+            color: #fff;
+        }
+        
+        .delete-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 0.5rem;
+        }
+        
+        .page-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .page-btn:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+        }
+        
+        .page-btn.active {
+            background-color: #4267B2;
+            color: #fff;
+            border-color: #4267B2;
+        }
+        
+        .page-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .nav-links {
+                display: flex;
+                position: static;
+                background: none;
+                padding: 8px;
+                flex-direction: row;
+                box-shadow: none;
+                border-radius: 16px;
+                border: 1px solid rgba(255, 255, 255, 0.18);
+                animation: none;
+            }
+
+            .companies-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .companies-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .company-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+            
+            .company-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <i class='bx bxs-hexagon'></i>
+                <span>Job Hive</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/admin/dashboard.html">
+                    <i class='bx bxs-dashboard'></i>
+                    Dashboard
+                </a>
+                <a href="/admin/users.html">
+                    <i class='bx bx-user'></i>
+                    Users
+                </a>
+                <a href="/admin/jobs.html">
+                    <i class='bx bx-briefcase'></i>
+                    Jobs
+                </a>
+                <a href="/admin/companies.html" class="active">
+                    <i class='bx bx-buildings'></i>
+                    Companies
+                </a>
+                <a href="/admin/applications.html">
+                    <i class='bx bx-file'></i>
+                    Applications
+                </a>
+                <a href="/admin/reports.html">
+                    <i class='bx bx-line-chart'></i>
+                    Reports
+                </a>
+                <a href="/api/auth/logout" class="btn">
+                    <i class='bx bx-log-out'></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+        </nav>
+
+    <div class="container">
+            <div class="companies-header">
+                <h1 class="companies-title">Companies Management</h1>
+                <button class="add-company-btn" onclick="showAddCompanyModal()">
+                <i class='bx bx-plus'></i> Add New Company
+                </button>
+            </div>
+            
+            <div class="filters-section">
+                <div class="filters-header">
+                    <h2 class="filters-title">Filters</h2>
+                </div>
+                
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label class="filter-label">Search</label>
+                        <input type="text" class="filter-input" id="searchInput" placeholder="Search by company name or location">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Status</label>
+                        <select class="filter-select" id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="filter-btn apply-btn" onclick="applyFilters()">Apply Filters</button>
+                    <button class="filter-btn reset-btn" onclick="resetFilters()">Reset</button>
+                </div>
+            </div>
+            
+            <table class="companies-table">
+                <thead>
+                    <tr>
+                    <th>Company</th>
+                        <th>Industry</th>
+                        <th>Size</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="companiesTableBody">
+                    <!-- Companies will be populated here -->
+                </tbody>
+            </table>
+            
+            <div class="pagination">
+                <button class="page-btn disabled">Previous</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">4</button>
+                <button class="page-btn">5</button>
+                <button class="page-btn">Next</button>
+            </div>
+        </div>
+
+    <script>
+        // Function to fetch companies
+        async function fetchCompanies(page = 1, limit = 10) {
+            try {
+                const response = await fetch(`/api/admin/companies?page=${page}&limit=${limit}`, {
+                    credentials: 'include'  // This is important for session-based auth
+                });
+                
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        window.location.href = '/login.html';
+                        return;
+                    }
+                    throw new Error('Failed to fetch companies');
+                }
+                
+                const data = await response.json();
+                const companies = Array.isArray(data) ? data : (data.companies || []);
+                const totalCount = data.totalCount || companies.length;
+                
+                displayCompanies(companies);
+                updatePagination(totalCount, page, limit);
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification(error.message);
+                if (error.message.includes('401')) {
+                    window.location.href = '/login.html';
+                }
+            }
+        }
+
+        // Function to update pagination
+        function updatePagination(totalCount, currentPage, limit) {
+            const totalPages = Math.ceil(totalCount / limit);
+            const paginationContainer = document.querySelector('.pagination');
+            paginationContainer.innerHTML = '';
+
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.className = 'page-btn';
+            prevButton.textContent = 'Previous';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => fetchCompanies(currentPage - 1));
+            paginationContainer.appendChild(prevButton);
+
+            // Page buttons
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.className = `page-btn ${currentPage === i ? 'active' : ''}`;
+                pageButton.textContent = i;
+                pageButton.addEventListener('click', () => fetchCompanies(i));
+                paginationContainer.appendChild(pageButton);
+            }
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.className = 'page-btn';
+            nextButton.textContent = 'Next';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => fetchCompanies(currentPage + 1));
+            paginationContainer.appendChild(nextButton);
+        }
+
+        // Function to display companies in the table
+        function displayCompanies(companies) {
+            const tableBody = document.getElementById('companiesTableBody');
+            tableBody.innerHTML = '';
+
+            if (!Array.isArray(companies) || companies.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="5" style="text-align: center; padding: 2rem;">
+                        No companies found
+                    </td>
+                `;
+                tableBody.appendChild(row);
+                return;
+            }
+
+            companies.forEach(company => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="company-info">
+                            <img src="${company.logoUrl || '../assets/images/default-company.png'}" alt="Company logo" class="company-logo">
+                            <div>
+                                <div class="company-name">${company.name || 'N/A'}</div>
+                                <div class="company-industry">${company.industry || 'N/A'}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${company.industry || 'N/A'}</td>
+                    <td>
+                        <span class="company-size size-${(company.size || '').toLowerCase()}">
+                            ${company.size || 'N/A'}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="company-status status-${company.active ? 'active' : 'inactive'}">
+                            ${company.active ? 'Active' : 'Inactive'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="company-actions">
+                            <button onclick="editCompany(${company.id})" class="action-btn edit-btn">
+                                <i class='bx bx-edit'></i>
+                            </button>
+                            <button onclick="deleteCompany(${company.id})" class="action-btn delete-btn">
+                                <i class='bx bx-trash'></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Function to apply filters
+        function applyFilters() {
+            fetchCompanies(1); // Reset to first page when applying filters
+        }
+
+        // Function to reset filters
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('statusFilter').value = '';
+            fetchCompanies(1);
+        }
+
+        // Function to show add company modal
+        function showAddCompanyModal() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.setAttribute('role', 'dialog');
+            modal.setAttribute('aria-labelledby', 'addCompanyModalTitle');
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h2 id="addCompanyModalTitle">Add New Company</h2>
+                    <form id="addCompanyForm">
+                        <div class="form-group">
+                            <label for="newCompanyName">Name</label>
+                            <input type="text" id="newCompanyName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCompanyIndustry">Industry</label>
+                            <input type="text" id="newCompanyIndustry" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCompanySize">Size</label>
+                            <select id="newCompanySize" required>
+                                <option value="SMALL">Small (1-50)</option>
+                                <option value="MEDIUM">Medium (51-200)</option>
+                                <option value="LARGE">Large (201-500)</option>
+                                <option value="ENTERPRISE">Enterprise (500+)</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Add Company</button>
+                            <button type="button" class="btn btn-secondary" onclick="this.closest('.modal').remove()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Handle form submission
+            modal.querySelector('form').onsubmit = async (e) => {
+                e.preventDefault();
+                const companyData = {
+                    name: document.getElementById('newCompanyName').value,
+                    industry: document.getElementById('newCompanyIndustry').value,
+                    size: document.getElementById('newCompanySize').value
+                };
+
+                try {
+                    const response = await fetch('/api/admin/companies', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify(companyData)
+                    });
+
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.error || 'Failed to add company');
+                    }
+
+                    modal.remove();
+                    showNotification('Company added successfully', 'success');
+                    fetchCompanies();
+                } catch (error) {
+                    showNotification(error.message);
+                }
+            };
+        }
+
+        // Function to edit company
+        async function editCompany(companyId) {
+            try {
+                const response = await fetch(`/api/admin/companies/${companyId}`, {
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        window.location.href = '/login.html';
+                        return;
+                    }
+                    throw new Error('Failed to fetch company details');
+                }
+
+                const company = await response.json();
+
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.setAttribute('role', 'dialog');
+                modal.setAttribute('aria-labelledby', 'editCompanyModalTitle');
+
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <h2 id="editCompanyModalTitle">Edit Company</h2>
+                        <form id="editCompanyForm">
+                            <div class="form-group">
+                                <label for="editCompanyName">Name</label>
+                                <input type="text" id="editCompanyName" value="${company.name}" required>
+                    </div>
+                            <div class="form-group">
+                                <label for="editCompanyIndustry">Industry</label>
+                                <input type="text" id="editCompanyIndustry" value="${company.industry}" required>
+                    </div>
+                            <div class="form-group">
+                                <label for="editCompanySize">Size</label>
+                                <select id="editCompanySize" required>
+                            <option value="SMALL" ${company.size === 'SMALL' ? 'selected' : ''}>Small (1-50)</option>
+                            <option value="MEDIUM" ${company.size === 'MEDIUM' ? 'selected' : ''}>Medium (51-200)</option>
+                            <option value="LARGE" ${company.size === 'LARGE' ? 'selected' : ''}>Large (201-500)</option>
+                            <option value="ENTERPRISE" ${company.size === 'ENTERPRISE' ? 'selected' : ''}>Enterprise (500+)</option>
+                        </select>
+                    </div>
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="editCompanyActive" ${company.active ? 'checked' : ''}>
+                                    Active
+                                </label>
+                        </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" class="btn btn-secondary" onclick="this.closest('.modal').remove()">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+
+                document.body.appendChild(modal);
+
+                // Handle form submission
+                modal.querySelector('form').onsubmit = async (e) => {
+                    e.preventDefault();
+                    const companyData = {
+                        name: document.getElementById('editCompanyName').value,
+                        industry: document.getElementById('editCompanyIndustry').value,
+                        size: document.getElementById('editCompanySize').value,
+                        active: document.getElementById('editCompanyActive').checked
+                    };
+
+                    try {
+                        const response = await fetch(`/api/admin/companies/${companyId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            credentials: 'include',
+                            body: JSON.stringify(companyData)
+                        });
+
+                        if (!response.ok) {
+                            const error = await response.json();
+                            throw new Error(error.error || 'Failed to update company');
+                        }
+
+                        modal.remove();
+                        showNotification('Company updated successfully', 'success');
+                        fetchCompanies();
+                    } catch (error) {
+                        showNotification(error.message);
+                    }
+                };
+            } catch (error) {
+                showNotification(error.message);
+            }
+        }
+
+        // Function to delete company
+        async function deleteCompany(companyId) {
+            if (!confirm('Are you sure you want to delete this company?')) {
+                return;
+            }
+
+            try {
+            const response = await fetch(`/api/admin/companies/${companyId}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || 'Failed to delete company');
+            }
+
+                showNotification('Company deleted successfully', 'success');
+                fetchCompanies();
+            } catch (error) {
+                showNotification(error.message);
+            }
+        }
+
+        // Function to show notification
+        function showNotification(message, type = 'error') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Add notification styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 25px;
+                border-radius: 5px;
+                color: white;
+                font-weight: 500;
+                animation: slideIn 0.3s ease-out;
+            }
+            
+            .notification.error {
+                background-color: #e74c3c;
+            }
+            
+            .notification.success {
+                background-color: #2ecc71;
+            }
+            
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Fetch companies when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchCompanies();
+        });
+    </script>
+</body>
+</html> 

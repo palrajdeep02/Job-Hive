@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applications - Job Hive</title>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e2e2e2, #c9d6ff);
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(25px) saturate(160%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%);
+            padding: 15px 0;
+            box-shadow: 
+                0 4px 30px rgba(0, 0, 0, 0.1),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4267B2;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .logo:hover {
+            transform: translateY(-2px) scale(1.05);
+            text-shadow: 0 0 15px rgba(66, 103, 178, 0.5);
+        }
+
+        .logo i {
+            font-size: 32px;
+            color: #FFA000;
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .logo:hover i {
+            transform: rotate(360deg);
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #4267B2, #365899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #4267B2, transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+        }
+
+        .nav-links a i {
+            font-size: 20px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .nav-links a:hover {
+            color: #4267B2;
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a:hover i {
+            transform: rotate(15deg) scale(1.2);
+            color: #FFA000;
+        }
+
+        .nav-links .active {
+            color: #4267B2;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-links .active i {
+            color: #FFA000;
+        }
+
+        .nav-links .btn {
+            background: rgba(66, 103, 178, 0.1);
+            color: #4267B2;
+            padding: 8px 16px;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 1px solid rgba(66, 103, 178, 0.2);
+        }
+
+        .nav-links .btn:hover {
+            background: rgba(66, 103, 178, 0.2);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 15px rgba(66, 103, 178, 0.2);
+        }
+
+        .nav-links .btn:hover i {
+            transform: rotate(-180deg);
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #333;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .applications-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 2rem;
+        }
+        
+        .applications-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .applications-title {
+            color: #2c3e50;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        
+        .filters-section {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 2rem;
+        }
+        
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .filter-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .filter-select {
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            color: #2c3e50;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-select:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-input {
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            width: 100%;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .applications-list {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .application-card {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: all 0.3s ease;
+        }
+
+        .application-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .candidate-info {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .candidate-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #f8f9fa;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .candidate-details h3 {
+            color: #2c3e50;
+            margin-bottom: 0.3rem;
+        }
+        
+        .candidate-title {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        .application-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .status-new {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .status-reviewing {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+            border: 1px solid rgba(241, 196, 15, 0.3);
+        }
+        
+        .status-shortlisted {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        
+        .status-rejected {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .application-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        
+        .detail-label {
+            color: #7f8c8d;
+            font-size: 0.8rem;
+        }
+        
+        .detail-value {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .application-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        .action-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .view-profile-btn {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .view-profile-btn:hover {
+            background: rgba(52, 152, 219, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+        }
+        
+        .view-resume-btn {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        
+        .view-resume-btn:hover {
+            background: rgba(46, 204, 113, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.2);
+        }
+        
+        .schedule-interview-btn {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f1c40f;
+            border: 1px solid rgba(241, 196, 15, 0.3);
+        }
+        
+        .schedule-interview-btn:hover {
+            background: rgba(241, 196, 15, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.2);
+        }
+        
+        .reject-btn {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .reject-btn:hover {
+            background: rgba(231, 76, 60, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        .page-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .page-btn:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .page-btn.active {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.95);
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                border-radius: 0 0 15px 15px;
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-links .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .application-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .application-actions {
+                flex-wrap: wrap;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <i class='bx bxs-hexagon'></i>
+                <span>Job Hive</span>
+            </a>
+            <button class="menu-btn" id="menuBtn">
+                <i class='bx bx-menu'></i>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="/employer/dashboard.html">
+                    <i class='bx bxs-dashboard'></i>
+                    Dashboard
+                </a>
+                <a href="/employer/post-job.html">
+                    <i class='bx bx-briefcase'></i>
+                    Jobs
+                </a>
+                <a href="/employer/applications.html" class="active">
+                    <i class='bx bx-file'></i>
+                    Applications
+                </a>
+                <a href="/employer/profile.html">
+                    <i class='bx bx-user'></i>
+                    Profile
+                </a>
+                <a href="/api/auth/logout" class="btn">
+                    <i class='bx bx-log-out'></i>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="applications-container">
+            <div class="applications-header">
+                <h1 class="applications-title">Applications</h1>
+            </div>
+            
+            <div class="filters-section">
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label class="filter-label">Status</label>
+                        <select class="filter-select">
+                            <option value="all">All Status</option>
+                            <option value="new">New</option>
+                            <option value="reviewing">Under Review</option>
+                            <option value="shortlisted">Shortlisted</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Job</label>
+                        <select class="filter-select">
+                            <option value="all">All Jobs</option>
+                            <option value="software-engineer">Software Engineer</option>
+                            <option value="product-manager">Product Manager</option>
+                            <option value="ux-designer">UX Designer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Date Applied</label>
+                        <select class="filter-select">
+                            <option value="all">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Search</label>
+                        <input type="text" class="search-input" placeholder="Search by name or skills...">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="applications-list">
+                <div class="application-card">
+                    <div class="application-header">
+                        <div class="candidate-info">
+                            <img src="../../assets/images/candidate-1.jpg" alt="John Doe" class="candidate-photo">
+                            <div class="candidate-details">
+                                <h3>John Doe</h3>
+                                <div class="candidate-title">Senior Software Engineer</div>
+                            </div>
+                        </div>
+                        <span class="application-status status-new">New</span>
+                    </div>
+                    
+                    <div class="application-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Applied for</div>
+                            <div class="detail-value">Senior Software Engineer</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Applied Date</div>
+                            <div class="detail-value">March 15, 2024</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Experience</div>
+                            <div class="detail-value">5 years</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Location</div>
+                            <div class="detail-value">San Francisco, CA</div>
+                        </div>
+                    </div>
+                    
+                    <div class="application-actions">
+                        <button class="action-btn view-profile-btn">
+                            <i class='bx bx-user'></i> View Profile
+                        </button>
+                        <button class="action-btn view-resume-btn">
+                            <i class='bx bx-file'></i> View Resume
+                        </button>
+                        <button class="action-btn schedule-interview-btn">
+                            <i class='bx bx-calendar'></i> Schedule Interview
+                        </button>
+                        <button class="action-btn reject-btn">
+                            <i class='bx bx-x'></i> Reject
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="application-header">
+                        <div class="candidate-info">
+                            <img src="../../assets/images/candidate-2.jpg" alt="Sarah Smith" class="candidate-photo">
+                            <div class="candidate-details">
+                                <h3>Sarah Smith</h3>
+                                <div class="candidate-title">Product Manager</div>
+                            </div>
+                        </div>
+                        <span class="application-status status-reviewing">Under Review</span>
+                    </div>
+                    
+                    <div class="application-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Applied for</div>
+                            <div class="detail-value">Product Manager</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Applied Date</div>
+                            <div class="detail-value">March 14, 2024</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Experience</div>
+                            <div class="detail-value">4 years</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Location</div>
+                            <div class="detail-value">New York, NY</div>
+                        </div>
+                    </div>
+                    
+                    <div class="application-actions">
+                        <button class="action-btn view-profile-btn">
+                            <i class='bx bx-user'></i> View Profile
+                        </button>
+                        <button class="action-btn view-resume-btn">
+                            <i class='bx bx-file'></i> View Resume
+                        </button>
+                        <button class="action-btn schedule-interview-btn">
+                            <i class='bx bx-calendar'></i> Schedule Interview
+                        </button>
+                        <button class="action-btn reject-btn">
+                            <i class='bx bx-x'></i> Reject
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="application-card">
+                    <div class="application-header">
+                        <div class="candidate-info">
+                            <img src="../../assets/images/candidate-3.jpg" alt="Michael Johnson" class="candidate-photo">
+                            <div class="candidate-details">
+                                <h3>Michael Johnson</h3>
+                                <div class="candidate-title">UX/UI Designer</div>
+                            </div>
+                        </div>
+                        <span class="application-status status-shortlisted">Shortlisted</span>
+                    </div>
+                    
+                    <div class="application-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Applied for</div>
+                            <div class="detail-value">UX/UI Designer</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Applied Date</div>
+                            <div class="detail-value">March 13, 2024</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Experience</div>
+                            <div class="detail-value">3 years</div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-label">Location</div>
+                            <div class="detail-value">Remote</div>
+                        </div>
+                    </div>
+                    
+                    <div class="application-actions">
+                        <button class="action-btn view-profile-btn">
+                            <i class='bx bx-user'></i> View Profile
+                        </button>
+                        <button class="action-btn view-resume-btn">
+                            <i class='bx bx-file'></i> View Resume
+                        </button>
+                        <button class="action-btn schedule-interview-btn">
+                            <i class='bx bx-calendar'></i> Schedule Interview
+                        </button>
+                        <button class="action-btn reject-btn">
+                            <i class='bx bx-x'></i> Reject
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pagination">
+                <button class="page-btn">Previous</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">Next</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuBtn.querySelector('i').classList.toggle('bx-menu');
+            menuBtn.querySelector('i').classList.toggle('bx-x');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuBtn.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuBtn.querySelector('i').classList.add('bx-menu');
+                menuBtn.querySelector('i').classList.remove('bx-x');
+            }
+        });
+
+        // Fetch and display applications
+        async function fetchApplications() {
+            try {
+                const response = await fetch('/api/applications/company', {
+                    credentials: 'include'
+                });
+                if (!response.ok) throw new Error('Failed to fetch applications');
+                const applications = await response.json();
+                
+                // Update applications list
+                const applicationsList = document.querySelector('.applications-list');
+                applicationsList.innerHTML = '';
+                
+                applications.forEach(application => {
+                    const applicationCard = document.createElement('div');
+                    applicationCard.className = 'application-card';
+                    
+                    // Format applied date
+                    const appliedDate = new Date(application.appliedDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    
+                    // Set status class based on application status
+                    const statusClass = `status-${application.status.toLowerCase()}`;
+                    
+                    applicationCard.innerHTML = `
+                        <div class="application-header">
+                            <div class="candidate-info">
+                                <img src="../../assets/images/candidate-1.jpg" alt="${application.user.firstName} ${application.user.lastName}" class="candidate-photo">
+                                <div class="candidate-details">
+                                    <h3>${application.user.firstName} ${application.user.lastName}</h3>
+                                    <div class="candidate-title">${application.user.title || 'Job Seeker'}</div>
+                                </div>
+                            </div>
+                            <span class="application-status ${statusClass}">${application.status}</span>
+                        </div>
+                        
+                        <div class="application-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Applied for</div>
+                                <div class="detail-value">${application.job.title}</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Applied Date</div>
+                                <div class="detail-value">${appliedDate}</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Experience</div>
+                                <div class="detail-value">${application.user.experience || 'Not specified'}</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Location</div>
+                                <div class="detail-value">${application.user.location || 'Not specified'}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="application-actions">
+                            <button class="action-btn view-profile-btn" onclick="viewProfile('${application.user.id}')">
+                                <i class='bx bx-user'></i> View Profile
+                            </button>
+                            <button class="action-btn view-resume-btn" onclick="viewResume('${application.id}')">
+                                <i class='bx bx-file'></i> View Resume
+                            </button>
+                            <button class="action-btn schedule-interview-btn" onclick="scheduleInterview('${application.id}')">
+                                <i class='bx bx-calendar'></i> Schedule Interview
+                            </button>
+                            <button class="action-btn reject-btn" onclick="rejectApplication('${application.id}')">
+                                <i class='bx bx-x'></i> Reject
+                            </button>
+                        </div>
+                    `;
+                    
+                    applicationsList.appendChild(applicationCard);
+                });
+                
+            } catch (error) {
+                console.error('Error fetching applications:', error);
+                alert('Failed to load applications. Please try again later.');
+            }
+        }
+
+        // Handle application actions
+        async function viewProfile(userId) {
+            try {
+                const response = await fetch(`/api/users/${userId}`, {
+                    credentials: 'include'
+                });
+                if (!response.ok) throw new Error('Failed to fetch user profile');
+                const userData = await response.json();
+                
+                // Open profile in new tab or modal
+                window.open(`/jobseeker/profile.html?id=${userId}`, '_blank');
+            } catch (error) {
+                console.error('Error viewing profile:', error);
+                alert('Failed to load profile. Please try again later.');
+            }
+        }
+
+        async function viewResume(applicationId) {
+            try {
+                const response = await fetch(`/api/applications/${applicationId}/resume`, {
+                    credentials: 'include'
+                });
+                if (!response.ok) throw new Error('Failed to fetch resume');
+                const resumeData = await response.json();
+                
+                // Open resume in new tab
+                window.open(resumeData.filePath, '_blank');
+            } catch (error) {
+                console.error('Error viewing resume:', error);
+                alert('Failed to load resume. Please try again later.');
+            }
+        }
+
+        async function scheduleInterview(applicationId) {
+            try {
+                const interviewTime = prompt('Enter interview date and time (YYYY-MM-DD HH:mm):');
+                if (!interviewTime) return;
+                
+                const response = await fetch(`/api/applications/${applicationId}/schedule-interview`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        interviewTime: interviewTime
+                    })
+                });
+                
+                if (!response.ok) throw new Error('Failed to schedule interview');
+                
+                alert('Interview scheduled successfully!');
+                fetchApplications(); // Refresh the list
+            } catch (error) {
+                console.error('Error scheduling interview:', error);
+                alert('Failed to schedule interview. Please try again later.');
+            }
+        }
+
+        async function rejectApplication(applicationId) {
+            if (!confirm('Are you sure you want to reject this application?')) return;
+            
+            try {
+                const response = await fetch(`/api/applications/${applicationId}/reject`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) throw new Error('Failed to reject application');
+                
+                alert('Application rejected successfully!');
+                fetchApplications(); // Refresh the list
+            } catch (error) {
+                console.error('Error rejecting application:', error);
+                alert('Failed to reject application. Please try again later.');
+            }
+        }
+
+        // Handle filter changes
+        document.querySelectorAll('.filter-select').forEach(select => {
+            select.addEventListener('change', fetchApplications);
+        });
+
+        // Handle search input
+        const searchInput = document.querySelector('.search-input');
+        let searchTimeout;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(fetchApplications, 500);
+        });
+
+        // Fetch applications when page loads
+        document.addEventListener('DOMContentLoaded', fetchApplications);
+    </script>
+</body>
+</html> 
